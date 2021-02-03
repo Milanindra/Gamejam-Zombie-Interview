@@ -7,6 +7,16 @@ public class Movement_SF : MonoBehaviour
     float movementSpeed = 2;
     float jumpHight = 7;
     bool grounded;
+    Vector2 originalColliderSize;
+    BoxCollider2D collider;
+    SpriteManager spriteManager;
+
+    private void Start()
+    {
+        spriteManager = GetComponent<SpriteManager>();
+        collider = GetComponent<BoxCollider2D>();
+        originalColliderSize = collider.size;
+    }
     private void Update()
     {
         movementSpeed = 2;
@@ -14,13 +24,13 @@ public class Movement_SF : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
         {
-            GetComponent<BoxCollider2D>().size = new Vector2(1, .5f);
-            GetComponent<BoxCollider2D>().offset = new Vector2(0, -.25f);
+            spriteManager.isCrouching = true;
+            collider.size = new Vector2(originalColliderSize.x, originalColliderSize.y / 2);
         }
         else
         {
-            GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
-            GetComponent<BoxCollider2D>().offset = new Vector2(0, 0);
+            spriteManager.isCrouching = false;
+            collider.size = originalColliderSize;
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && grounded)

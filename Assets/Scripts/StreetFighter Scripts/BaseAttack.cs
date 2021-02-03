@@ -26,6 +26,8 @@ public class BaseAttack : MonoBehaviour
             collider2D.size -= new Vector2(hitSpeed * Time.deltaTime, 0);
             yield return new WaitForEndOfFrame();
         }
+        GetComponentInParent<SpriteManager>().isAttacking = false;
+        GetComponentInParent<BoxCollider2D>().offset = new Vector2(0, 0);
         Destroy(gameObject);
     }
 }
